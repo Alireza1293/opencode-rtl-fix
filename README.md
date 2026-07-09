@@ -28,19 +28,19 @@ Download the latest release ZIP and extract it.
 Double-click:
 
 ```text
-patch.command
+macos/patch.command
 ```
 
 Or run from Terminal:
 
 ```bash
-./patch.command
+./macos/patch.command
 ```
 
 If OpenCode is installed somewhere else:
 
 ```bash
-OPENCODE_APP="/path/to/OpenCode.app" ./patch.command
+OPENCODE_APP="/path/to/OpenCode.app" ./macos/patch.command
 ```
 
 ### Windows
@@ -68,13 +68,13 @@ After patching, fully quit and reopen OpenCode.
 Double-click:
 
 ```text
-unpatch.command
+macos/unpatch.command
 ```
 
 Or run:
 
 ```bash
-./unpatch.command
+./macos/unpatch.command
 ```
 
 ### Windows

@@ -26,19 +26,19 @@ OpenCode مشروع منفصل ولا يرتبط بهذا المستودع. ين
 انقر مرتين على:
 
 ```text
-patch.command
+macos/patch.command
 ```
 
 أو شغله من Terminal:
 
 ```bash
-./patch.command
+./macos/patch.command
 ```
 
 إذا كان OpenCode مثبتا في مسار آخر:
 
 ```bash
-OPENCODE_APP="/path/to/OpenCode.app" ./patch.command
+OPENCODE_APP="/path/to/OpenCode.app" ./macos/patch.command
 ```
 
 ### Windows
@@ -66,13 +66,13 @@ powershell -ExecutionPolicy Bypass -File .\windows\patch.ps1 -AsarPath "C:\Path\
 للرجوع إلى النسخة الأصلية، انقر مرتين على:
 
 ```text
-unpatch.command
+macos/unpatch.command
 ```
 
 أو شغل:
 
 ```bash
-./unpatch.command
+./macos/unpatch.command
 ```
 
 ### Windows
