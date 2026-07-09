@@ -1,10 +1,22 @@
 # OpenCode RTL Fix
 
+Fix broken RTL text rendering in OpenCode Desktop.
+
 Languages: [فارسی](./README.fa.md) | [العربية](./README.ar.md)
 
-Unofficial local patch for OpenCode Desktop on macOS and Windows. It improves Persian and Arabic text direction in chat, markdown, blockquotes, and code blocks that contain RTL text.
+![OpenCode RTL Fix Before and After](./assets/github.png)
 
-It also replaces Persian and Arabic text with a more readable font.
+Unofficial local patch for OpenCode Desktop on macOS and Windows.
+
+This patch improves Persian, Arabic, and RTL text rendering in:
+
+- User messages
+- Assistant messages
+- Markdown paragraphs and lists
+- Blockquotes
+- Code blocks containing RTL text
+
+It also applies a more readable font for Persian and Arabic characters.
 
 ## Trust and scope
 
