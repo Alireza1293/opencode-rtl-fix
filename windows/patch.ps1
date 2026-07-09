@@ -107,6 +107,8 @@ try {
     throw "Could not find renderer assets."
   }
 
+  $AlreadyPatched = (Get-Content -Raw $HtmlFile).Contains("opencode-rtl-runtime-fix")
+
   $NodeScript = @'
 const fs = require("fs")
 const [jsFile, cssFile, htmlFile] = process.argv.slice(2)
@@ -201,11 +203,17 @@ fs.writeFileSync(htmlFile, html)
   Write-Host "Packing patched app.asar..."
   npx --yes @electron/asar pack (Join-Path $WorkDir "app") (Join-Path $WorkDir "app.asar")
 
-  Write-Host "Creating backup: $BackupPath"
-  Copy-Item $AsarPath $BackupPath -Force
+  if (-not $AlreadyPatched) {
+    Write-Host "Creating backup: $BackupPath"
+    Copy-Item $AsarPath $BackupPath -Force
+  } else {
+    Write-Host "OpenCode already appears to be patched; skipping backup to avoid backing up a patched app.asar."
+  }
   Copy-Item (Join-Path $WorkDir "app.asar") $AsarPath -Force
   Write-Host "Done. Restart OpenCode."
-  Write-Host "Backup saved at: $BackupPath"
+  if (-not $AlreadyPatched) {
+    Write-Host "Backup saved at: $BackupPath"
+  }
 }
 finally {
   Remove-Item $WorkDir -Recurse -Force -ErrorAction SilentlyContinue

@@ -40,6 +40,11 @@ if [ ! -f "$JS_FILE" ] || [ ! -f "$CSS_FILE" ] || [ ! -f "$HTML_FILE" ]; then
   exit 1
 fi
 
+ALREADY_PATCHED=0
+if grep -q "opencode-rtl-runtime-fix" "$HTML_FILE"; then
+  ALREADY_PATCHED=1
+fi
+
 node - "$JS_FILE" "$CSS_FILE" "$HTML_FILE" <<'NODE'
 const fs = require("fs")
 const [jsFile, cssFile, htmlFile] = process.argv.slice(2)
@@ -163,15 +168,27 @@ NODE
 echo "Packing patched app.asar..."
 npx --yes @electron/asar pack "$WORK/app" "$WORK/app.asar"
 
-echo "Creating backup: $BACKUP"
-if cp "$ASAR" "$BACKUP" 2>/dev/null; then
-  cp "$WORK/app.asar" "$ASAR"
+if [ "$ALREADY_PATCHED" = "0" ]; then
+  echo "Creating backup: $BACKUP"
+  if cp "$ASAR" "$BACKUP" 2>/dev/null; then
+    true
+  else
+    echo "Admin permission is required to modify $APP"
+    sudo cp "$ASAR" "$BACKUP"
+  fi
+else
+  echo "OpenCode already appears to be patched; skipping backup to avoid backing up a patched app.asar."
+fi
+
+if cp "$WORK/app.asar" "$ASAR" 2>/dev/null; then
+  true
 else
   echo "Admin permission is required to modify $APP"
-  sudo cp "$ASAR" "$BACKUP"
   sudo cp "$WORK/app.asar" "$ASAR"
 fi
 
 echo "Done. Restart OpenCode."
-echo "Backup saved at: $BACKUP"
+if [ "$ALREADY_PATCHED" = "0" ]; then
+  echo "Backup saved at: $BACKUP"
+fi
 read -n 1 -s -r -p "Press any key to close..." || true

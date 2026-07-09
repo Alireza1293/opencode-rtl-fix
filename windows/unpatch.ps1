@@ -84,7 +84,7 @@ function Find-AsarPath {
 
 $AsarPath = Find-AsarPath $AsarPath
 $ResourcesDir = Split-Path $AsarPath -Parent
-$Backup = Get-ChildItem $ResourcesDir -Filter "app.asar.backup.*" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$Backup = Get-ChildItem $ResourcesDir -Filter "app.asar.backup.*" | Sort-Object Name | Select-Object -First 1
 
 Write-Host "OpenCode RTL Fix Restore"
 Write-Host "========================"
@@ -95,6 +95,6 @@ if (-not $Backup) {
 
 Get-Process OpenCode -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
-Write-Host "Restoring: $($Backup.FullName)"
+Write-Host "Restoring oldest backup: $($Backup.FullName)"
 Copy-Item $Backup.FullName $AsarPath -Force
 Write-Host "Done. Restart OpenCode."

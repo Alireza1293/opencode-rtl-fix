@@ -3,7 +3,7 @@ set -euo pipefail
 
 APP="${OPENCODE_APP:-/Applications/OpenCode.app}"
 ASAR="$APP/Contents/Resources/app.asar"
-BACKUP="$(ls -t "$APP/Contents/Resources"/app.asar.backup.* 2>/dev/null | head -n 1 || true)"
+BACKUP="$(ls "$APP/Contents/Resources"/app.asar.backup.* 2>/dev/null | sort | head -n 1 || true)"
 
 echo "OpenCode RTL Fix Restore"
 echo "========================"
@@ -20,7 +20,7 @@ if pgrep -x "OpenCode" >/dev/null 2>&1; then
   sleep 2
 fi
 
-echo "Restoring: $BACKUP"
+echo "Restoring oldest backup: $BACKUP"
 if cp "$BACKUP" "$ASAR" 2>/dev/null; then
   true
 else
